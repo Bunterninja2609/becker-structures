@@ -166,7 +166,7 @@ public class BeckerList<ContentType> {
      * Ausfuehrung des Auftrags kein aktuelles Objekt, d.h. hasAccess() liefert
      * den Wert false.
      */
-    public void last(){
+    public void previous(){
         if (this.hasAccess()) {
             current = current.getPreviousNode();
             currentIndex--;
@@ -385,6 +385,24 @@ public class BeckerList<ContentType> {
         } else {
             return null;
         }
+    }
+    public ContentType get(int index){
+        if (index >= length || index < 0){
+            System.err.println("Index " + index + "out of punds for BeckerList with the length of " + length);
+            return null;
+        }
+        while (currentIndex != index){
+            if (index < currentIndex){
+                previous();
+            }else{
+                next();
+            }
+        }
+        return current.getContentObject();
+    }
+    public void forEach(){
+        int savedIndex = currentIndex;
+        //TODO Lambda expressions
     }
 
 }
