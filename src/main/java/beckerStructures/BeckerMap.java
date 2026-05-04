@@ -7,7 +7,7 @@ public class BeckerMap<KT extends Comparable, RT> {
     private BinarySearchTree<MapNode> nodes;
 
     public BeckerMap(){
-
+        nodes = new BinarySearchTree<>();
     }
     public RT get(KT key){
         BinarySearchTree<MapNode> current = nodes;
@@ -21,6 +21,9 @@ public class BeckerMap<KT extends Comparable, RT> {
         }
         return null;
     }
+    public void add(KT key, RT value){
+        nodes.insert(new MapNode(key, value));
+    };
 
     private class MapNode implements ComparableContent<MapNode> {
         KT key;
