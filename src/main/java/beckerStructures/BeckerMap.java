@@ -1,35 +1,54 @@
 package beckerStructures;
 
-public class BeckerMap<KT, RT> {
-    private BeckerList<MapNode> nodes;
+import KAGO_framework.model.abitur.datenstrukturen.BinarySearchTree;
+import KAGO_framework.model.abitur.datenstrukturen.ComparableContent;
+
+public class BeckerMap<KT extends Comparable, RT> {
+    private BinarySearchTree<MapNode> nodes;
 
     public BeckerMap(){
-        nodes = new BeckerList<>();
+
     }
     public RT get(KT key){
-        nodes.toFirst();
-        while(nodes.hasAccess()){
-            MapNode node = nodes.getContent();
-            if(node.compareKey(key)){
-                return node.getObject();
+        BinarySearchTree<MapNode> current = nodes;
+        boolean hasEnded = false;
+        while (!current.isEmpty()){
+            switch (current.getContent().key.compareTo(key)) {
+                case -1: current = current.getLeftTree();
+                case 0: return current.getContent().getValue();
+                case 1: current = current.getRightTree();
             }
-            nodes.next();
         }
         return null;
     }
 
-    private class MapNode {
+    private class MapNode implements ComparableContent<MapNode> {
         KT key;
-        RT object;
-        public MapNode(KT key, RT object){
-            this.object = object;
+        RT value;
+        public MapNode(KT key, RT value){
+            this.value = value;
             this.key = key;
         }
         public boolean compareKey(KT key){
             return key.equals(this.key);
         }
-        public RT getObject(){
-            return object;
+        public RT getValue(){
+            return value;
+        }
+
+        @Override
+        public boolean isGreater(MapNode pContent) {
+            return key.compareTo(pContent.key) == 1;
+        }
+
+        @Override
+        public boolean isEqual(MapNode pContent) {
+            return key.compareTo(pContent.key) == 0;
+        }
+
+        @Override
+        public boolean isLess(MapNode pContent) {
+            return key.compareTo(pContent.key) == -1;
         }
     }
 }

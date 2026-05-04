@@ -1,5 +1,8 @@
 package beckerStructures;
 
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
 /**
  * <p>
  * Materialien zu den zentralen NRW-Abiturpruefungen im Fach Informatik ab 2018
@@ -400,9 +403,14 @@ public class BeckerList<ContentType> {
         }
         return current.getContentObject();
     }
-    public void forEach(){
+    public void forEach(Consumer<? super ContentType> action){
         int savedIndex = currentIndex;
-        //TODO Lambda expressions
+        toFirst();
+        while(hasAccess()){
+            action.accept(current.contentObject);
+            next();
+        }
+        get(currentIndex);
     }
 
 }
